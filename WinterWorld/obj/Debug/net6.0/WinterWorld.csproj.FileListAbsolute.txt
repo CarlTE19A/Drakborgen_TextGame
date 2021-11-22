@@ -1,0 +1,15 @@
+C:\Programming\WinterWorld\WinterWorld\bin\Debug\net6.0\WinterWorld.exe
+C:\Programming\WinterWorld\WinterWorld\bin\Debug\net6.0\WinterWorld.deps.json
+C:\Programming\WinterWorld\WinterWorld\bin\Debug\net6.0\WinterWorld.runtimeconfig.json
+C:\Programming\WinterWorld\WinterWorld\bin\Debug\net6.0\WinterWorld.dll
+C:\Programming\WinterWorld\WinterWorld\bin\Debug\net6.0\ref\WinterWorld.dll
+C:\Programming\WinterWorld\WinterWorld\bin\Debug\net6.0\WinterWorld.pdb
+C:\Programming\WinterWorld\WinterWorld\obj\Debug\net6.0\WinterWorld.csproj.AssemblyReference.cache
+C:\Programming\WinterWorld\WinterWorld\obj\Debug\net6.0\WinterWorld.GeneratedMSBuildEditorConfig.editorconfig
+C:\Programming\WinterWorld\WinterWorld\obj\Debug\net6.0\WinterWorld.AssemblyInfoInputs.cache
+C:\Programming\WinterWorld\WinterWorld\obj\Debug\net6.0\WinterWorld.AssemblyInfo.cs
+C:\Programming\WinterWorld\WinterWorld\obj\Debug\net6.0\WinterWorld.csproj.CoreCompileInputs.cache
+C:\Programming\WinterWorld\WinterWorld\obj\Debug\net6.0\WinterWorld.dll
+C:\Programming\WinterWorld\WinterWorld\obj\Debug\net6.0\ref\WinterWorld.dll
+C:\Programming\WinterWorld\WinterWorld\obj\Debug\net6.0\WinterWorld.pdb
+C:\Programming\WinterWorld\WinterWorld\obj\Debug\net6.0\WinterWorld.genruntimeconfig.cache
