@@ -13,17 +13,7 @@ public class Player : Character
     {
         Console.Clear();
         //Show Stats
-        displayStats();
-        //Show where player came from
-        //Show Choises
-        /*From Choise: (All only if possible)
-        1. Show Inventory
-        2. Go North
-        3. Go East
-        4. Go South
-        5. Go West
-        */
-        Write.ColoredLine("Tip H : help", ConsoleColor.Yellow);
+        displayChacterTurn();
         bool hasChoosen = false;
         while (hasChoosen == false)
         {
@@ -57,29 +47,29 @@ public class Player : Character
                         hasChoosen = true;
                     }
                     break;
-                case ConsoleKey.I:
-                    Console.WriteLine("Opens Inventory");
-                    hasChoosen = true;
-                    break;
-                case ConsoleKey.H:
-                    Console.WriteLine("Arrows : Move");
-                    Console.WriteLine("I : Open Inventory");
+                case ConsoleKey.Tab:
+                    displayInventory();
                     break;
             }
         }
         return false;   
     }
-    void displayStats()
+    void displayChacterTurn()
     {
         Write.Colored($"Player : {title}  ", ConsoleColor.DarkGreen);
         Write.Colored($"HP : {health}  ", ConsoleColor.Red);
         Write.ColoredLine($"Position : {pos}  ", ConsoleColor.Yellow);
+        displayStats();
+        Console.WriteLine("Arrows : Move");
+        Console.WriteLine("TAB : Open Inventory");
     }
     void displayInventory()
     {
         Console.Clear();
-        displayStats();
-        //Show Inventory
+        Console.WriteLine("Inventory");
+        Console.ReadKey(true);
+        Console.Clear();
+        displayChacterTurn();
     }
 }
 

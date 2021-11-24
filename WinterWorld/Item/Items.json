@@ -3,18 +3,10 @@
     [
         {
             "Title" : "Stone Sling",
-            "strength" : "0",
-            "psyche" : "0",
-            "agility" : "0",
-            "armor" : "0",
             "description" : "Gives the ability to shoot rocks T12 if over agility it is hit; T6 - armor/2"
         },
         {
             "Title" : "Bow",
-            "strength" : "0",
-            "psyche" : "0",
-            "agility" : "0",
-            "armor" : "0",
             "description" : "Gives the ability to shoot arrows before battle (can shoot inf ammount of arrows if not ambush, 11/12 to insta kill Orc, others T12 - Agility"
         }
     ],
@@ -22,99 +14,99 @@
     [
         {
             "title" : "Troll",
-            "strength" : "8",
-            "psyche" : "4",
-            "agility" : "3",
-            "armor" : "5",
+            "strength" : 8,
+            "psyche" : 4,
+            "agility" : 3,
+            "armor" : 5,
             "description" : "He is big, kinda fat, with a greenish yellow color"
         },
         {
             "title" : "Demon",
-            "strength" : "9",
-            "psyche" : "11",
-            "agility" : "7",
-            "armor" : "7",
+            "strength" : 9,
+            "psyche" : 11,
+            "agility" : 7,
+            "armor" : 7,
             "description" : "The Demon is a huge awful monster with a reddish tint"
         },
         {
             "title" : "Dragon",
-            "strength" : "24",
-            "psyche" : "7",
-            "agility" : "5",
-            "armor" : "20",
+            "strength" : 24,
+            "psyche" : 7,
+            "agility" : 5,
+            "armor" : 20,
             "description" : "This is the greatest monster you have ever seen, teeth like daggers, claws like swords with a breath of the hottest fire"
         },
         {
             "title" : "Giant Spider",
-            "strength" : "5",
-            "psyche" : "6",
-            "agility" : "4",
-            "armor" : "5",
+            "strength" : 5,
+            "psyche" : 6,
+            "agility" : 4,
+            "armor" : 5,
             "description" : "This abomination is so vile most would scream and run away as fast as their legs would carry them, but this monster would catch them and eat them."
         },
         {
             "title" : "Minotaur",
-            "strength" : "10",
-            "psyche" : "5",
-            "agility" : "6",
-            "armor" : "6",
+            "strength" : 10,
+            "psyche" : 5,
+            "agility" : 6,
+            "armor" : 6,
             "description" : "With the head of a bull and the body of the largest man you have ever seen this brute looks deadly"
         },
         {
             "title" : "Orc",
-            "strength" : "5",
-            "psyche" : "4",
-            "agility" : "6",
-            "armor" : "5",
+            "strength" : 5,
+            "psyche" : 4,
+            "agility" : 6,
+            "armor" : 5,
             "description" : "This dark green monster has huge arms but small legs, not the most deadly of monsters"
         },
         {
             "title" : "Skeleton",
-            "strength" : "5",
-            "psyche" : "7",
-            "agility" : "3",
-            "armor" : "6",
+            "strength" : 5,
+            "psyche" : 7,
+            "agility" : 3,
+            "armor" : 6,
             "description" : "It's not that agile but to move not no muscle it has to have a strong psyche"
 
         },
         {
             "title" : "Ghostrider",
-            "strength" : "8",
-            "psyche" : "8",
-            "agility" : "5",
-            "armor" : "10",
+            "strength" : 8,
+            "psyche" : 8,
+            "agility" : 5,
+            "armor" : 10,
             "description" : "Some call them Spooky Riders, Once. Then they die from these powerful beasts"
         },
         {
             "title" : "Goblin",
-            "strength" : "3",
-            "psyche" : "4",
-            "agility" : "9",
-            "armor" : "2",
+            "strength" : 3,
+            "psyche" : 4,
+            "agility" : 9,
+            "armor" : 2,
             "description" : "A small creature, not strong but with incredible agility"
         },
         {
             "title" : "Vampire",
-            "strength" : "7",
-            "psyche" : "8",
-            "agility" : "5",
-            "armor" : "4",
+            "strength" : 7,
+            "psyche" : 8,
+            "agility" : 5,
+            "armor" : 4,
             "description" : "This creature will suck the blood out of you if your not careful, they are incredebly dangerous"
         },
         {
-            "title" : "Warewolf",
-            "strength" : "6",
-            "psyche" : "6",
-            "agility" : "7",
-            "armor" : "4",
-            "description" : "Your not sure if it's a real warewolf or a dangerous furry, but you should kill it either way"
+            "title" : "Werewolf",
+            "strength" : 6,
+            "psyche" : 6,
+            "agility" : 7,
+            "armor" : 4,
+            "description" : "Your not sure if it's a real werewolf or a dangerous furry, but you should kill it either way"
         },
         {
             "title" : "Wraith",
-            "strength" : "6",
-            "psyche" : "9",
-            "agility" : "5",
-            "armor" : "5",
+            "strength" : 6,
+            "psyche" : 9,
+            "agility" : 5,
+            "armor" : 5,
             "description" : "You see a ghost but remember that they want to be called Wraiths as is sounds badass"
         }
     ]
