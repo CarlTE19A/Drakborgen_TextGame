@@ -1,14 +1,28 @@
 ﻿using System.Numerics;
 using System.Text.Json;
-Vector2 mapSize = new Vector2(10, 10);
+Console.SetWindowPosition(0,0);
+//Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
 
 Write.SetupColor();
 
 Console.WriteLine("Press any key to Start");
+Console.WriteLine("┌──   ──┬───────┐  │ │  ┌──   ──┐");
+Console.WriteLine("│       │ x     │  │ │  │       │");
+Console.WriteLine("│   ?           └──┘ └──┘   ?   │");
+Console.WriteLine("│       │     T ┌──┐ ┌──┐       │");
+Console.WriteLine("├──   ──┼───────┼──┤ │  ├──   ──┤");
+Console.WriteLine("│       │       │  │ │  │       │");
+Console.WriteLine("│   ?       x   └──┘ └──┤   ?   │");
+Console.WriteLine("│       │       ┌───────┤       │");
+Console.WriteLine("└───────┴───────┘       └──   ──┘");
+Dictionary<Vector2, Room> worldGrid = Map.createWorld(Map.mapSize);
+worldGrid[new Vector2(0,0)] = Map.newRoom(true, Direction.North);
+worldGrid[new Vector2(9,0)] = Map.newRoom(true, Direction.North);
+worldGrid[new Vector2(0,9)] = Map.newRoom(true, Direction.North);
+worldGrid[new Vector2(9,9)] = Map.newRoom(true, Direction.North);
+Map.displayMap(worldGrid);
 List<Player> players = Character.newPlayers();
-Dictionary<Vector2, Room> worldGrid;    // = createWorld(mapSize);
 
-Console.Clear();
 while (true)
 {
     foreach (var player in players)
@@ -17,19 +31,6 @@ while (true)
     }
 }
 Console.ReadKey(true);
-
-Dictionary<Vector2, Room> createWorld(Vector2 worldInitSize)        //Old better create world during game
-{
-    Dictionary<Vector2, Room> worldInitGrid = new Dictionary<Vector2, Room>();  //World Dictonary for all rooms
-    for (var x = 0; x < worldInitSize.X; x++)
-    {
-        for (var y = 0; y < worldInitSize.Y; y++)
-        {
-            worldInitGrid.Add(new Vector2(x,y), new Corridor());
-        }
-    }
-    return worldInitGrid;
-}
 
 void newRoom(Vector2 pos)
 {
