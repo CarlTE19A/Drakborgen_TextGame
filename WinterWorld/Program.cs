@@ -5,22 +5,18 @@ Console.SetWindowPosition(0,0);
 
 Write.SetupColor();
 
-Console.WriteLine("Press any key to Start");
-Console.WriteLine("┌──   ──┬───────┐  │ │  ┌──   ──┐");
-Console.WriteLine("│       │ x     │  │ │  │       │");
-Console.WriteLine("│   ?           └──┘ └──┘   ?   │");
-Console.WriteLine("│       │     T ┌──┐ ┌──┐       │");
-Console.WriteLine("├──   ──┼───────┼──┤ │  ├──   ──┤");
-Console.WriteLine("│       │       │  │ │  │       │");
-Console.WriteLine("│   ?       x   └──┘ └──┤   ?   │");
-Console.WriteLine("│       │       ┌───────┤       │");
-Console.WriteLine("└───────┴───────┘       └──   ──┘");
 Dictionary<Vector2, Room> worldGrid = Map.createWorld(Map.mapSize);
+
+    //Force corners of map to be open in all directions
 worldGrid[new Vector2(0,0)] = Map.newRoom(true, Direction.North);
 worldGrid[new Vector2(9,0)] = Map.newRoom(true, Direction.North);
 worldGrid[new Vector2(0,9)] = Map.newRoom(true, Direction.North);
 worldGrid[new Vector2(9,9)] = Map.newRoom(true, Direction.North);
+
 Map.displayMap(worldGrid);
+Map.displayMap(worldGrid);
+Map.displayMap(worldGrid);
+
 List<Player> players = Character.newPlayers();
 
 while (true)

@@ -3,70 +3,87 @@ class Map
 {
     static private Random randomGenerator = new Random();
     public static Vector2 mapSize = new Vector2(10, 10);
-    public static void displayMap(Dictionary<Vector2, Room> rooms)
+    public static void displayMap(Dictionary<Vector2, Room> rooms)  //This displays the map on the screen, used to show the player how he can move
     {
         int lineAmmount = (int)mapSize.Y * 4 + 1;
         String[] lines = new String[lineAmmount];
         lines[0] = "  ──────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬──────  ";
-        for (var y = 1; y < lineAmmount - 1; y++)
+        for (var y = 1; y < lineAmmount - 1; y++)   //Checks the whole grid in y
         {
-            if(y % 4 != 0)
+            if(y % 4 != 0)  //Makes the right side of the map solid
             {
                 lines[y] += "│";
             }
-            for (var x = 0; x < mapSize.X; x++)
+            for (var x = 0; x < mapSize.X; x++)     //Checks the whole grid in x inside y
             {
                 Vector2 pos = new Vector2(x, (y - 1) / 4);
-                if(y % 4 == 0)
+                if(y % 4 == 0)  //Between rooms in the y direction
                 {
                     if(x == 0)
                     {
                         lines[y] += "├";
                     }
-                        if(rooms[pos].DirectionIsOpen(Direction.South) || rooms[pos + new Vector2(0,1)].DirectionIsOpen(Direction.North))
+                    if(rooms[pos].DirectionIsOpen(Direction.South) || rooms[pos + new Vector2(0,1)].DirectionIsOpen(Direction.North))   //Display walls between rooms in the y-axis
+                    {
+                        if(rooms[pos].GetType().Name == "Corridor" && rooms[pos + new Vector2(0,1)].GetType().Name == "Corridor")
                         {
-                            if(rooms[pos].GetType().Name == "Corridor" && rooms[pos + new Vector2(0,1)].GetType().Name == "Corridor")
-                            {
-                                lines[y] += "  │ │  ";
-                            }
-                            else if(rooms[pos].GetType().Name == "Corridor")
-                            {
-                                lines[y] += "──┘ └──";
-                            }
-                            else if(rooms[pos + new Vector2(0,1)].GetType().Name == "Corridor")
-                            {
-                                lines[y] += "──┐ ┌──";
-                            }
-                            else
-                            {
-                                {
-                                    lines[y] += "──   ──";
-                                }
-                            }
+                            lines[y] += "  │ │  ";
                         }
-                        else if(rooms[pos].GetType().Name == "Corridor" && rooms[pos + new Vector2(0,1)].GetType().Name == "Corridor")
+                        else if(rooms[pos].GetType().Name == "Corridor")
                         {
-                            lines[y] += "       ";
+                            lines[y] += "──┘ └──";
+                        }
+                        else if(rooms[pos + new Vector2(0,1)].GetType().Name == "Corridor")
+                        {
+                            lines[y] += "──┐ ┌──";
                         }
                         else
                         {
-                            lines[y] += "───────";
+                            {
+                                lines[y] += "──   ──";
+                            }
                         }
-                        if(x != 9)
-                        {
-                           lines[y] += "┼"; 
-                        }
-                        else
-                        {
-                            lines[y] += "│";
-                        }
+                    }
+                    else if(rooms[pos].GetType().Name == "Corridor" && rooms[pos + new Vector2(0,1)].GetType().Name == "Corridor")
+                    {
+                        lines[y] += "       ";
+                    }
+                    else
+                    {
+                        lines[y] += "───────";
+                    }
+                    if(x != 9)
+                    {
+                       lines[y] += "┼"; 
+                    }
+                    else
+                    {
+                        lines[y] += "│";
+                    }
                 }
                 else
                 {
-                    lines[y] += rooms[pos].displayRoom(y % 4 - 1);
+                    if(x < 9 && y < 9)
+                    {
+                        if(rooms[pos].DirectionIsOpen(Direction.South) || rooms[pos + new Vector2(0,1)].DirectionIsOpen(Direction.North))
+                        {
+                            rooms[pos].openDoor(Direction.South);
+                            rooms[pos].recalculateRoom();
+                            rooms[pos + new Vector2(0,1)].openDoor(Direction.North);
+                            rooms[pos + new Vector2(0,1)].recalculateRoom();
+                        }
+                        if(rooms[pos].DirectionIsOpen(Direction.East) || rooms[pos + new Vector2(1,0)].DirectionIsOpen(Direction.West))
+                        {
+                            rooms[pos].openDoor(Direction.East);
+                            rooms[pos].recalculateRoom();
+                            rooms[pos + new Vector2(1,0)].openDoor(Direction.West);
+                            rooms[pos + new Vector2(1,0)].recalculateRoom();
+                        }
+                    }
+                    lines[y] += rooms[pos].displayRoom(y % 4 - 1);  //Display to innards of the room
                     if(x != 9)
                     {
-                        if(rooms[pos].DirectionIsOpen(Direction.East) || rooms[pos + new Vector2(1,0)].DirectionIsOpen(Direction.West))
+                        if(rooms[pos].DirectionIsOpen(Direction.East) || rooms[pos + new Vector2(1,0)].DirectionIsOpen(Direction.West))     //Display walls between rooms in the x-axis
                         {
                             if(rooms[pos].GetType().Name == "Corridor" && rooms[pos + new Vector2(1,0)].GetType().Name == "Corridor")
                             {
@@ -207,8 +224,6 @@ class Map
             }
 
             worldInitGrid.Add(new Vector2(x,y), roomForNext);
-            Console.Write(roomForNext.DirectionIsOpen(new Vector2(x,y), Direction.North));
-            
         }
     }
     return worldInitGrid;
@@ -276,86 +291,11 @@ class Map
             tempRoom.openDoor(Direction.West);
             tempRoom.openDoor(Direction.East);
         }
-        if(tempRoom.DirectionIsOpen(Direction.North) && tempRoom.DirectionIsOpen(Direction.West) && tempRoom.DirectionIsOpen(Direction.South) && tempRoom.DirectionIsOpen(Direction.East))  //All
-        {
-            tempRoom.mapDisplay = new String[]{
-                "  │ │  ",
-                "──┘ └──",
-                "──┐ ┌──"};
-        }
-        else if(tempRoom.DirectionIsOpen(Direction.North) && tempRoom.DirectionIsOpen(Direction.West) && tempRoom.DirectionIsOpen(Direction.South))                                //Missing East
-        {
-            tempRoom.mapDisplay = new String[]{
-                "  │ │  ",
-                "──┘ │  ",
-                "──┐ │  "};
-        }
-        else if(tempRoom.DirectionIsOpen(Direction.North) && tempRoom.DirectionIsOpen(Direction.West))                                                                    //Missing South and East
-        {
-            tempRoom.mapDisplay = new String[]{
-                "  │ │  ",
-                "──┘ │  ",
-                "────┘  "};
-        }
-        else if(tempRoom.DirectionIsOpen(Direction.North) && tempRoom.DirectionIsOpen(Direction.West) && tempRoom.DirectionIsOpen(Direction.East))                                //Missing South
-        {
-            tempRoom.mapDisplay = new String[]{
-                "  │ │  ",
-                "──┘ └──",
-                "───────"};
-        }
-        else if(tempRoom.DirectionIsOpen(Direction.North) && tempRoom.DirectionIsOpen(Direction.East))                                                                    //Missing South and West
-        {
-            tempRoom.mapDisplay = new String[]{
-                "  │ │  ",
-                "  │ └──",
-                "  └────"};
-        }
-        else if(tempRoom.DirectionIsOpen(Direction.North) && tempRoom.DirectionIsOpen(Direction.East) && tempRoom.DirectionIsOpen(Direction.South))                                //Missing West
-        {
-            tempRoom.mapDisplay = new String[]{
-                "  │ │  ",
-                "  │ └──",
-                "  │ ┌──"};
-        }
-        else if(tempRoom.DirectionIsOpen(Direction.South) && tempRoom.DirectionIsOpen(Direction.East))                                                                    //Missing West and North
-        {
-            tempRoom.mapDisplay = new String[]{
-                "       ",
-                "  ┌────",
-                "  │ ┌──"};
-        }
-        else if(tempRoom.DirectionIsOpen(Direction.East) && tempRoom.DirectionIsOpen(Direction.West) && tempRoom.DirectionIsOpen(Direction.South))                                //Missing North
-        {
-            tempRoom.mapDisplay = new String[]{
-                "       ",
-                "───────",
-                "──┐ ┌──"};
-        }
-        else if(tempRoom.DirectionIsOpen(Direction.South) && tempRoom.DirectionIsOpen(Direction.West))                                                                    //Missing North and East
-        {
-            tempRoom.mapDisplay = new String[]{
-                "       ",
-                "────┐  ",
-                "──┐ │  "};
-        }
-        else if(tempRoom.DirectionIsOpen(Direction.South) && tempRoom.DirectionIsOpen(Direction.North))                                                                    //Missing West and East
-        {
-            tempRoom.mapDisplay = new String[]{
-                "  │ │  ",
-                "  │ │  ",
-                "  │ │  "};
-        }
-        else if(tempRoom.DirectionIsOpen(Direction.West) && tempRoom.DirectionIsOpen(Direction.East))                                                                    //Missing North and South
-        {
-            tempRoom.mapDisplay = new String[]{
-                "       ",
-                "───────",
-                "───────"};
-        }
+        tempRoom.recalculateRoom();
         
         return tempRoom;     
     }
+
 }
 //TODO Rooms have there look taken from json file
 

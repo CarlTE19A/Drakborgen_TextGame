@@ -50,25 +50,129 @@ public class Room
     {
         return openDoors[dir];
     }
+    /*
     public bool DirectionIsOpen(Vector2 RoomPos, Direction dir)
     {
-        if(dir == Direction.North && RoomPos.X == 0)
+        if(dir == Direction.North && RoomPos.Y == 0)
         {
             return false;
         }
-        if(dir == Direction.West && RoomPos.Y == 0)
+        if(dir == Direction.West && RoomPos.X == 0)
         {
             return false;
         }
-        if(dir == Direction.South && RoomPos.X == 10)
+        if(dir == Direction.South && RoomPos.Y == 10)
         {
             return false;
         }
-        if(dir == Direction.East && RoomPos.Y == 10)
+        if(dir == Direction.East && RoomPos.X == 10)
         {
             return false;
         }
         
         return openDoors[dir];
+    }
+    */
+
+    public void recalculateRoom()
+    {
+        if(GetType().Name == "Corridor")
+        {          
+            if(DirectionIsOpen(Direction.North) && DirectionIsOpen(Direction.West) && DirectionIsOpen(Direction.South) && DirectionIsOpen(Direction.East))  //All
+            {
+                mapDisplay = new String[]{
+                    "  │ │  ",
+                    "──┘ └──",
+                    "──┐ ┌──"};
+            }
+            else if(DirectionIsOpen(Direction.North) && DirectionIsOpen(Direction.West) && DirectionIsOpen(Direction.South) && !DirectionIsOpen(Direction.East))                                //Missing East
+            {
+                mapDisplay = new String[]{
+                    "  │ │  ",
+                    "──┘ │  ",
+                    "──┐ │  "};
+            }
+            else if(DirectionIsOpen(Direction.North) && DirectionIsOpen(Direction.West) && !DirectionIsOpen(Direction.South) && !DirectionIsOpen(Direction.East))                                                                    //Missing South and East
+            {
+                mapDisplay = new String[]{
+                    "  │ │  ",
+                    "──┘ │  ",
+                    "────┘  "};
+            }
+            else if(DirectionIsOpen(Direction.North) && DirectionIsOpen(Direction.West) && DirectionIsOpen(Direction.East) && !DirectionIsOpen(Direction.South))                                //Missing South
+            {
+                mapDisplay = new String[]{
+                    "  │ │  ",
+                    "──┘ └──",
+                    "───────"};
+            }
+            else if(DirectionIsOpen(Direction.North) && DirectionIsOpen(Direction.East) && !DirectionIsOpen(Direction.West) && !DirectionIsOpen(Direction.South))                                                                    //Missing South and West
+            {
+                mapDisplay = new String[]{
+                    "  │ │  ",
+                    "  │ └──",
+                    "  └────"};
+            }
+            else if(DirectionIsOpen(Direction.North) && DirectionIsOpen(Direction.East) && DirectionIsOpen(Direction.South) && !DirectionIsOpen(Direction.West))                                //Missing West
+            {
+                mapDisplay = new String[]{
+                    "  │ │  ",
+                    "  │ └──",
+                    "  │ ┌──"};
+            }
+            else if(DirectionIsOpen(Direction.South) && DirectionIsOpen(Direction.East) && !DirectionIsOpen(Direction.West) && !DirectionIsOpen(Direction.North))                                                                    //Missing West and North
+            {
+                mapDisplay = new String[]{
+                    "       ",
+                    "  ┌────",
+                    "  │ ┌──"};
+            }
+            else if(DirectionIsOpen(Direction.East) && DirectionIsOpen(Direction.West) && DirectionIsOpen(Direction.South) && !DirectionIsOpen(Direction.North))                                //Missing North
+            {
+                mapDisplay = new String[]{
+                    "       ",
+                    "───────",
+                    "──┐ ┌──"};
+            }
+            else if(DirectionIsOpen(Direction.South) && DirectionIsOpen(Direction.West) && !DirectionIsOpen(Direction.East) && !DirectionIsOpen(Direction.North))                                                                    //Missing North and East
+            {
+                mapDisplay = new String[]{
+                    "       ",
+                    "────┐  ",
+                    "──┐ │  "};
+            }
+            else if(DirectionIsOpen(Direction.South) && DirectionIsOpen(Direction.North) && !DirectionIsOpen(Direction.West) && !DirectionIsOpen(Direction.East))                                                                    //Missing West and East
+            {
+                mapDisplay = new String[]{
+                    "  │ │  ",
+                    "  │ │  ",
+                    "  │ │  "};
+            }
+            else if(DirectionIsOpen(Direction.West) && DirectionIsOpen(Direction.East) && !DirectionIsOpen(Direction.North) && !DirectionIsOpen(Direction.South))                                                                    //Missing North and South
+            {
+                mapDisplay = new String[]{
+                    "       ",
+                    "───────",
+                    "───────"};
+            } 
+            else if(!DirectionIsOpen(Direction.North) && !DirectionIsOpen(Direction.West) && !DirectionIsOpen(Direction.South) && !DirectionIsOpen(Direction.East))
+            {
+                mapDisplay = new String[]{
+                    "_EMPTY_",
+                    "_EMPTY_",
+                    "_EMPTY_"};
+            }
+            else
+            {
+                openDoor(Direction.North);
+                openDoor(Direction.East);
+                recalculateRoom();
+                // mapDisplay = new String[]{
+                //     "_OTHER_",
+                //     "_OTHER_",
+                //     "_OTHER_"};
+                Console.WriteLine($"{DirectionIsOpen(Direction.North)}, {DirectionIsOpen(Direction.West)} + {DirectionIsOpen(Direction.South)} + {DirectionIsOpen(Direction.East)}");
+            }
+        } 
     }
 }
