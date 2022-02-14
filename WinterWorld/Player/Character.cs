@@ -10,6 +10,7 @@ public class Character
     public int agility {get; set;}
     public int armor {get; set;}
     public string description {get; set;}
+    public char mapSymbol {get; set;}
     public Character()
     {
         
@@ -23,10 +24,11 @@ public class Character
         agility = choosenCharacter.agility;
         armor = choosenCharacter.armor;
         description = choosenCharacter.description;
+        mapSymbol = choosenCharacter.mapSymbol;
     }
     public void displayStats()
     {
-        Console.Write("<");
+        Console.Write("     <");
         Write.Colored($"Strength : {strength}, ", ConsoleColor.Red);
         Write.Colored($"Psyche : {psyche}, ", ConsoleColor.Magenta);
         Write.Colored($"Agility : {agility}, ", ConsoleColor.Cyan);
@@ -71,6 +73,23 @@ public class Character
         Console.WriteLine("Players");
         for (var i = 0; i < playerAm; i++)
         {
+            switch (i)
+            {
+                case 0:
+                    tempPlayers[i].pos = new System.Numerics.Vector2(0,0);
+                    break;
+                case 1:
+                    tempPlayers[i].pos = new System.Numerics.Vector2(0,9);
+                    break;
+                case 2:
+                    tempPlayers[i].pos = new System.Numerics.Vector2(9,0);
+                    break;
+                case 3:
+                    tempPlayers[i].pos = new System.Numerics.Vector2(9,9);
+                    break;
+                
+            }
+            
             Console.Write($"Player {i+1} : {tempPlayers[i].title}");
             tempPlayers[i].displayStats();
             //TODO fixa stats och displaya som table

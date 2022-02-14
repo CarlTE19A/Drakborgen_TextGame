@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Text;
 public class Room
 {    
     static protected Random generator;
@@ -27,6 +28,15 @@ public class Room
         row = Math.Clamp(row,0,2);
         return mapDisplay[row];
     }
+    public string displayRoom(int row, char[] symbols)    //Three chars instead of string as its important that its 3 symb
+    {
+        row = Math.Clamp(row,0,2);
+        StringBuilder tempSb = new StringBuilder(mapDisplay[row], 7);
+        tempSb[2] = symbols[0];
+        tempSb[3] = symbols[1];
+        tempSb[4] = symbols[2];
+        return tempSb.ToString();
+    }
     public void EnterNewRoom(Direction enterFrom)
     {
         switch(enterFrom)
@@ -50,30 +60,6 @@ public class Room
     {
         return openDoors[dir];
     }
-    /*
-    public bool DirectionIsOpen(Vector2 RoomPos, Direction dir)
-    {
-        if(dir == Direction.North && RoomPos.Y == 0)
-        {
-            return false;
-        }
-        if(dir == Direction.West && RoomPos.X == 0)
-        {
-            return false;
-        }
-        if(dir == Direction.South && RoomPos.Y == 10)
-        {
-            return false;
-        }
-        if(dir == Direction.East && RoomPos.X == 10)
-        {
-            return false;
-        }
-        
-        return openDoors[dir];
-    }
-    */
-
     public void recalculateRoom()
     {
         if(GetType().Name == "Corridor")
@@ -164,6 +150,7 @@ public class Room
             }
             else
             {
+                Console.WriteLine($"{DirectionIsOpen(Direction.North)}, {DirectionIsOpen(Direction.West)} + {DirectionIsOpen(Direction.South)} + {DirectionIsOpen(Direction.East)}");
                 openDoor(Direction.North);
                 openDoor(Direction.East);
                 recalculateRoom();
@@ -171,7 +158,6 @@ public class Room
                 //     "_OTHER_",
                 //     "_OTHER_",
                 //     "_OTHER_"};
-                Console.WriteLine($"{DirectionIsOpen(Direction.North)}, {DirectionIsOpen(Direction.West)} + {DirectionIsOpen(Direction.South)} + {DirectionIsOpen(Direction.East)}");
             }
         } 
     }

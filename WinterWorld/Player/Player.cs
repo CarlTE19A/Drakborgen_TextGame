@@ -3,15 +3,13 @@ public class Player : Character
 {
     List<Direction> walkHistory = new List<Direction>();
 
-    Vector2 pos;
+    public Vector2 pos;
     public Player(Character choosenCharacter)
     {
-        SetFromCharacter(choosenCharacter);
-        //Make player be able to choose character from a couple of characters
+        SetFromCharacter(choosenCharacter); //Make player be able to choose character from a couple of characters
     }
-    public bool PlayerTurn()   //Return true if Dead
+    public bool PlayerTurn(Dictionary<Vector2, Room> map)   //Return true if Dead
     {
-        Console.Clear();
         //Show Stats
         displayChacterTurn();
         bool hasChoosen = false;
@@ -20,30 +18,30 @@ public class Player : Character
             switch (Console.ReadKey(true).Key)
             {
                 case ConsoleKey.UpArrow:
-                    if(pos + new Vector2(0, 1) == Vector2.Clamp(pos + new Vector2(0, 1), new Vector2(0,0), new Vector2(10,10)))
+                    if(pos.Y > 0 && map[pos].DirectionIsOpen(Direction.North))
+                    {
+                        pos -= new Vector2(0, 1);
+                        hasChoosen = true;
+                    }
+                    break;
+                case ConsoleKey.DownArrow:
+                    if(pos.Y < 9 && map[pos].DirectionIsOpen(Direction.South))
                     {
                         pos += new Vector2(0, 1);
                         hasChoosen = true;
                     }
                     break;
+                case ConsoleKey.LeftArrow:
+                    if(pos.X > 0 && map[pos].DirectionIsOpen(Direction.West))
+                    {
+                        pos -= new Vector2(1, 0);
+                        hasChoosen = true;
+                    }
+                    break;
                 case ConsoleKey.RightArrow:
-                    if(pos + new Vector2(1, 0) == Vector2.Clamp(pos + new Vector2(1, 0), new Vector2(0,0), new Vector2(10,10)))
+                    if(pos.X < 9 && map[pos].DirectionIsOpen(Direction.East))
                     {
                         pos += new Vector2(1, 0);
-                        hasChoosen = true;
-                    }
-                    break;
-                case ConsoleKey.DownArrow:
-                    if(pos + new Vector2(0, -1) == Vector2.Clamp(pos + new Vector2(0, -1), new Vector2(0,0), new Vector2(10,10)))
-                    {
-                        pos += new Vector2(0, -1);
-                        hasChoosen = true;
-                    }
-                    break;
-                case ConsoleKey.LeftArrow:
-                    if(pos + new Vector2(-1, 0) == Vector2.Clamp(pos + new Vector2(-1, 0), new Vector2(0,0), new Vector2(10,10)))
-                    {
-                        pos += new Vector2(-1, 0);
                         hasChoosen = true;
                     }
                     break;
@@ -56,27 +54,17 @@ public class Player : Character
     }
     void displayChacterTurn()
     {
-        Write.Colored($"Player : {title}  ", ConsoleColor.DarkGreen);
+        Console.WriteLine();
+        Write.Colored($"     Player : {title}  ", ConsoleColor.DarkGreen);
         Write.Colored($"HP : {health}  ", ConsoleColor.Red);
         Write.ColoredLine($"Position : {pos}  ", ConsoleColor.Yellow);
         displayStats();
-        Console.WriteLine("Arrows : Move");
-        Console.WriteLine("TAB : Open Inventory");
+        Console.WriteLine("     Arrows : Move");
+        Console.WriteLine("     TAB : Open Inventory");
     }
     void displayInventory()
     {
-        Console.Clear();
-        Console.WriteLine("Inventory");
+        Console.WriteLine("     Inventory:");
         Console.ReadKey(true);
-        Console.Clear();
-        displayChacterTurn();
     }
 }
-
-//Health (HP)
-//Strength (ST)
-//Agility (AG)
-//Armor (AR)
-//Psyke (PS)
-
-//Be able to "vila" to regain HP

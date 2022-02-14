@@ -1,111 +1,125 @@
 
 [
     {
-        "title" : "Thargrim The Dark",
+        "title" : "Thargrim The Dark (T)",
         "health" : 13,
         "strength" : 7,
         "psyche" : 5,
         "agility" : 4,
         "armor" : 8,
-        "description" : ""
+        "description" : "",
+        "mapSymbol" : "T"
     },
     {
-        "title" : "Yüshugom Bogd-Uul",
+        "title" : "Yüshugom Bogd-Uul (U)",
         "health" : 19,
         "strength" : 6,
         "psyche" : 5,
         "agility" : 6,
         "armor" : 6,
-        "description" : ""
+        "description" : "",
+        "mapSymbol" : "U"
     },
     {
-        "title" : "Yübara Tori-Jima",
+        "title" : "Yübara Tori-Jima (Y)",
         "health" : 10,
         "strength" : 4,
         "psyche" : 5,
         "agility" : 10,
         "armor" : 4,
-        "description" : ""
+        "description" : "",
+        "mapSymbol" : "Y"
     },
     {
-        "title" : "Chãrãk-tlai, Wolfslayer",
+        "title" : "Chãrãk-tlai, Wolfslayer (W)",
         "health" : 16,
         "strength" : 8,
         "psyche" : 4,
         "agility" : 5,
         "armor" : 6,
-        "description" : ""
+        "description" : "",
+        "mapSymbol" : "W"
     },
     {
-        "title" : "The Red Knight of Rohan",
+        "title" : "The Red Knight of Rohan (R)",
         "health" : 17,
         "strength" : 6,
         "psyche" : 4,
         "agility" : 4,
         "armor" : 9,
-        "description" : ""
+        "description" : "",
+        "mapSymbol" : "R"
     },
     {
-        "title" : "Sigeir Sharpaxe",
+        "title" : "Sigeir Sharpaxe (S)",
         "health" : 16,
         "strength" : 7,
         "psyche" : 5,
         "agility" : 5,
         "armor" : 6,
-        "description" : ""
+        "description" : "",
+        "mapSymbol" : "S"
     },
     {
-        "title" : "Celfric Browncape",
+        "title" : "Celfric Browncape (C)",
         "health" : 15,
         "strength" : 4,
         "psyche" : 8,
         "agility" : 7,
         "armor" : 4,
-        "description" : "Heterosexuel"
+        "description" : "Heterosexuel",
+        "mapSymbol" : "C"
     },
     {
-        "title" : "Bardhor Bowman",
+        "title" : "Bardhor Bowman (B)",
         "health" : 11,
         "strength" : 3,
         "psyche" : 7,
         "agility" : 8,
         "armor" : 5,
         "description" : "Homosexuel"
+        ,
+        "mapSymbol" : "B"
     },
     {
-        "title": "Arvid Blackbeard",
+        "title": "Arvid Blackbeard (A)",
         "health": 12,
         "strength": 6,
         "psyche": 7,
         "agility": 7,
         "armor": 4,
-        "description": ""
+        "description": "",
+        "mapSymbol" : "A"
     },
     {
-        "title" : "test0",
+        "title" : "test0 (0)",
         "health" : 1,
         "strength" : 1,
         "psyche" : 0,
         "agility" : 1,
         "armor" : 1,
         "description" : ""
+        ,
+        "mapSymbol" : "0"
     },
     {
-        "title" : "test1",
+        "title" : "test1 (1)",
         "health" : 1,
         "strength" : 2,
         "psyche" : 3,
         "agility" : 4,
         "armor" : 5,
-        "description" : ""
+        "description" : "",
+        "mapSymbol" : "1"
     },
     {
-        "title" : "God",
+        "title" : "God (G)",
         "health" : 20,
         "strength" : 20,
         "psyche" : 20,
         "agility" : 20,
         "armor" : 20,
-        "description" : ""
+        "description" : "",
+        "mapSymbol" : "G"
     }
 ]

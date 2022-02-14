@@ -1,15 +1,19 @@
 using System.Numerics;
-class Map
-{
+///<summary>Controls all of the displaying and creating of the map. (static)</summary>
+static class Map 
+{ 
     static private Random randomGenerator = new Random();
     public static Vector2 mapSize = new Vector2(10, 10);
-    public static void displayMap(Dictionary<Vector2, Room> rooms)  //This displays the map on the screen, used to show the player how he can move
+    public static void displayMap(Dictionary<Vector2, Room> rooms, bool display, List<Player> players)  //This displays the map on the screen, used to show the player how he can move
     {
         int lineAmmount = (int)mapSize.Y * 4 + 1;
         String[] lines = new String[lineAmmount];
-        lines[0] = "  ──────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬──────  ";
+        Console.WriteLine();    //One line down
+        Console.WriteLine();
+        lines[0] = "       ──────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬──────  ";
         for (var y = 1; y < lineAmmount - 1; y++)   //Checks the whole grid in y
         {
+            lines[y] += "     ";
             if(y % 4 != 0)  //Makes the right side of the map solid
             {
                 lines[y] += "│";
@@ -23,19 +27,28 @@ class Map
                     {
                         lines[y] += "├";
                     }
-                    if(rooms[pos].DirectionIsOpen(Direction.South) || rooms[pos + new Vector2(0,1)].DirectionIsOpen(Direction.North))   //Display walls between rooms in the y-axis
+                    if(rooms[pos].DirectionIsOpen(Direction.South) || rooms[pos + new Vector2(0,1)].DirectionIsOpen(Direction.North))   //Display openings between rooms in the y-axis
                     {
                         if(rooms[pos].GetType().Name == "Corridor" && rooms[pos + new Vector2(0,1)].GetType().Name == "Corridor")
                         {
                             lines[y] += "  │ │  ";
+                            rooms[pos].openDoor(Direction.South);
+                            rooms[pos].recalculateRoom();
+                            rooms[pos + new Vector2(0,1)].openDoor(Direction.North);
+                            rooms[pos + new Vector2(0,1)].recalculateRoom();
                         }
                         else if(rooms[pos].GetType().Name == "Corridor")
                         {
                             lines[y] += "──┘ └──";
+                            rooms[pos].openDoor(Direction.South);
+                            rooms[pos].recalculateRoom();
                         }
                         else if(rooms[pos + new Vector2(0,1)].GetType().Name == "Corridor")
                         {
                             lines[y] += "──┐ ┌──";
+                            rooms[pos + new Vector2(0,1)].openDoor(Direction.North);
+                            rooms[pos + new Vector2(0,1)].recalculateRoom();
+                            
                         }
                         else
                         {
@@ -44,7 +57,7 @@ class Map
                             }
                         }
                     }
-                    else if(rooms[pos].GetType().Name == "Corridor" && rooms[pos + new Vector2(0,1)].GetType().Name == "Corridor")
+                    else if(rooms[pos].GetType().Name == "Corridor" && rooms[pos + new Vector2(0,1)].GetType().Name == "Corridor")      //Display no wall between closed corridors
                     {
                         lines[y] += "       ";
                     }
@@ -61,30 +74,73 @@ class Map
                         lines[y] += "│";
                     }
                 }
-                else
+                else    //Display the rooms themself
                 {
-                    if(x < 9 && y < 9)
+                    if(rooms[pos].DirectionIsOpen(Direction.North) && pos.Y > 0)
                     {
-                        if(rooms[pos].DirectionIsOpen(Direction.South) || rooms[pos + new Vector2(0,1)].DirectionIsOpen(Direction.North))
+                        rooms[pos - new Vector2(0,1)].openDoor(Direction.South);
+                        rooms[pos - new Vector2(0,1)].recalculateRoom();
+                    }
+                    if(rooms[pos].DirectionIsOpen(Direction.West) && pos.X > 0)
+                    {
+                        rooms[pos - new Vector2(1,0)].openDoor(Direction.East);
+                        rooms[pos - new Vector2(1,0)].recalculateRoom();
+                    }
+                    if(rooms[pos].DirectionIsOpen(Direction.South) && pos.Y < 9)
+                    {
+                        rooms[pos + new Vector2(0,1)].openDoor(Direction.North);
+                        rooms[pos + new Vector2(0,1)].recalculateRoom();
+                    }
+                    if(rooms[pos].DirectionIsOpen(Direction.East) && pos.X < 9)
+                    {
+                        rooms[pos + new Vector2(1,0)].openDoor(Direction.West);
+                        rooms[pos + new Vector2(1,0)].recalculateRoom();
+                    }
+                    if(y % 4 - 1 == 1 && players.Count != 0)
+                    {
+                        string tempRoomDisplay = "";
+                        char[] symbols = new char[3] {' ', ' ', ' '};
+                        for (var i = 0; i < players.Count; i++)
                         {
-                            rooms[pos].openDoor(Direction.South);
-                            rooms[pos].recalculateRoom();
-                            rooms[pos + new Vector2(0,1)].openDoor(Direction.North);
-                            rooms[pos + new Vector2(0,1)].recalculateRoom();
+                            if(pos == players[i].pos)
+                            {
+                                if(symbols[1] == ' ')
+                                {
+                                    symbols[1] = players[i].mapSymbol;
+                                }
+                                else if(symbols[0] == ' ')
+                                {
+                                    symbols[0] = players[i].mapSymbol;
+                                }
+                                else if(symbols[2] == ' ')
+                                {
+                                    symbols[2] = players[i].mapSymbol;
+                                }
+                                else
+                                {
+                                    Write.ColoredLine("More then 3 items at 1 position", ConsoleColor.Yellow);
+                                }
+                                tempRoomDisplay = rooms[pos].displayRoom(y % 4 - 1, symbols);  //Display to innards of the room with character
+                            }
+                            else if(i == players.Count-1 && symbols[0] == ' ' && symbols[1] == ' ' && symbols[2] == ' ')
+                            {
+                                tempRoomDisplay = rooms[pos].displayRoom(y % 4 - 1);  //Display to innards of the room with character
+                            }
                         }
-                        if(rooms[pos].DirectionIsOpen(Direction.East) || rooms[pos + new Vector2(1,0)].DirectionIsOpen(Direction.West))
+                        lines[y] += tempRoomDisplay;
+                    }
+                    else
+                    {
+                        lines[y] += rooms[pos].displayRoom(y % 4 - 1);  //Display to innards of the room
+                    }
+                    if(x != 9)
+                    {
+                        if(rooms[pos].DirectionIsOpen(Direction.East) || rooms[pos + new Vector2(1,0)].DirectionIsOpen(Direction.West))     //Display walls between rooms in the x-axis
                         {
                             rooms[pos].openDoor(Direction.East);
                             rooms[pos].recalculateRoom();
                             rooms[pos + new Vector2(1,0)].openDoor(Direction.West);
                             rooms[pos + new Vector2(1,0)].recalculateRoom();
-                        }
-                    }
-                    lines[y] += rooms[pos].displayRoom(y % 4 - 1);  //Display to innards of the room
-                    if(x != 9)
-                    {
-                        if(rooms[pos].DirectionIsOpen(Direction.East) || rooms[pos + new Vector2(1,0)].DirectionIsOpen(Direction.West))     //Display walls between rooms in the x-axis
-                        {
                             if(rooms[pos].GetType().Name == "Corridor" && rooms[pos + new Vector2(1,0)].GetType().Name == "Corridor")
                             {
                                 if(y % 4 == 1)
@@ -166,14 +222,15 @@ class Map
                 }
             }
         }
-        lines[lineAmmount - 1] = "  ──────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴──────  ";
+        lines[lineAmmount - 1] = "       ──────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴──────  ";
 
-        foreach (var line in lines)
-        {
-            System.Console.WriteLine(line);   
+        if(display == true)
+        { 
+            foreach (var line in lines)
+            {
+                System.Console.WriteLine(line);   
+            }
         }
-
-        //Room[,] rooms = new Room[10,10];
     }
     public static Dictionary<Vector2, Room> createWorld(Vector2 worldInitSize)        //Old better create world during game
 {
@@ -183,24 +240,9 @@ class Map
     {
         for (var y = 0; y < worldInitSize.Y; y++)
         {
-            if(randomGenerator.Next(0,8) == 1)
+            if(randomGenerator.Next(0,6) == 1)
             {   
-                roomForNext = new Corridor();
-                switch (randomGenerator.Next(0,5))
-                {
-                    case 0:
-                        roomForNext = newCorridor(Direction.North);
-                        break;
-                    case 1:
-                        roomForNext = newCorridor(Direction.West);
-                        break;
-                    case 2:
-                        roomForNext = newCorridor(Direction.South);
-                        break;
-                    case 3:
-                        roomForNext = newCorridor(Direction.East);
-                        break;
-                }
+                roomForNext = newCorridor();
             }
             else
             {
@@ -228,7 +270,7 @@ class Map
     }
     return worldInitGrid;
 }
-    public static Room newRoom(bool isEntrance, Direction enteredFrom)
+    public static Room newRoom(bool isEntrance, Direction enteredFrom)  
     {
         Room tempRoom = new Room();
         if(isEntrance == true)
@@ -261,47 +303,66 @@ class Map
         }   
         return tempRoom;     
     }
-    public static Room newCorridor(Direction enteredFrom)
+    public static Room newCorridor()
     {
         Room tempRoom = new Corridor();
-        int count = 1;  //enteredFrom is always true;
-        tempRoom.openDoor(enteredFrom);
-        if(randomGenerator.Next(0,4) == 1)
-        {
-            tempRoom.openDoor(Direction.North);
-            count++;
-        }
-        if(randomGenerator.Next(0,4) == 1)
-        {
-            tempRoom.openDoor(Direction.West);
-            count++;
-        }
-        if(randomGenerator.Next(0,4) == 1)
-        {
-            tempRoom.openDoor(Direction.South);
-            count++;
-        }
-        if(randomGenerator.Next(0,4) == 1)
-        {
-            tempRoom.openDoor(Direction.East);
-            count++;
-        }
-        if(count == 1)
-        {
-            tempRoom.openDoor(Direction.West);
-            tempRoom.openDoor(Direction.East);
-        }
+        switch (randomGenerator.Next(0,11))
+                {
+                    case 0:
+                        tempRoom.openDoor(Direction.North);
+                        tempRoom.openDoor(Direction.West);
+                        tempRoom.openDoor(Direction.South);
+                        tempRoom.openDoor(Direction.East);
+                        break;
+                    case 1:
+                        tempRoom.openDoor(Direction.North);
+                        tempRoom.openDoor(Direction.West);
+                        tempRoom.openDoor(Direction.South);
+                        break;
+                    case 2:
+                        tempRoom.openDoor(Direction.North);
+                        tempRoom.openDoor(Direction.West);
+                        break;
+                    case 3:
+                        tempRoom.openDoor(Direction.North);
+                        tempRoom.openDoor(Direction.West);
+                        tempRoom.openDoor(Direction.East);
+                        break;
+                    case 4:
+                        tempRoom.openDoor(Direction.North);
+                        tempRoom.openDoor(Direction.East);
+                        break;
+                    case 5:
+                        tempRoom.openDoor(Direction.North);
+                        tempRoom.openDoor(Direction.South);
+                        tempRoom.openDoor(Direction.East);
+                        break;
+                    case 6:
+                        tempRoom.openDoor(Direction.South);
+                        tempRoom.openDoor(Direction.East);
+                        break;
+                    case 7:
+                        tempRoom.openDoor(Direction.West);
+                        tempRoom.openDoor(Direction.South);
+                        tempRoom.openDoor(Direction.East);
+                        break;
+                    case 8:
+                        tempRoom.openDoor(Direction.West);
+                        tempRoom.openDoor(Direction.South);
+                        break;
+                    case 9:
+                        tempRoom.openDoor(Direction.North);
+                        tempRoom.openDoor(Direction.South);
+                        break;
+                    case 10:
+                        tempRoom.openDoor(Direction.West);
+                        tempRoom.openDoor(Direction.East);
+                        break;
+                }
         tempRoom.recalculateRoom();
         
         return tempRoom;     
     }
 
 }
-//TODO Rooms have there look taken from json file
-
-//Varje väg kollar vad som är på båda sidor, väljer från det i en lista hur den ska se ut
-//Checkar:
-//1. Om båda har en väg dit (borde se tills på annat ställe att dom har det) ; Ifall båda har det gå vidare till 2 
-//2. Är det korridor eller rum, välj utseende från det
-
 //TODO vad händer om rumen är oupsökta, rum med allt öppet?, Igenfyllt?
